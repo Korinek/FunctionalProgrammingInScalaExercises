@@ -63,6 +63,16 @@ object List {
         foldRight(as, 0)((_, acc) => 1 + acc)
     }
 
+    def sum3(l: List[Int]) =
+        foldLeft(l, 0)(_ + _)
+
+    def product3(l: List[Int]) =
+        foldLeft(l, 1.0)(_ * _)
+
+    def length2[A](l: List[A]): Int = {
+        foldLeft(l, 0)((acc, _) => 1 + acc)
+    }
+
     def apply[A](as: A*) : List[A] = {
         if (as.isEmpty) Nil
         else Cons(as.head, apply(as.tail: _*))
