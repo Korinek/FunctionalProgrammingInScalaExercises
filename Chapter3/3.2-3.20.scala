@@ -69,8 +69,12 @@ object List {
     def product3(l: List[Int]) =
         foldLeft(l, 1.0)(_ * _)
 
-    def length2[A](l: List[A]): Int = {
+    def length2[A](l: List[A]) : Int = {
         foldLeft(l, 0)((acc, _) => 1 + acc)
+    }
+
+    def reverse[A](l: List[A]) : List[A] = {
+        foldLeft(l, List[A]())((acc, h) => Cons(h, acc))
     }
 
     def apply[A](as: A*) : List[A] = {
