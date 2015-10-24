@@ -37,6 +37,12 @@ object List {
         case Cons(_, xs) => Cons(newHead, xs)
     }
 
+    def init[A](l: List[A]) : List[A] = l match {
+        case Nil => sys.error("init on empty list")
+        case Cons(_, Nil) => Nil
+        case Cons(h, t) => Cons(h, init(t))  
+    }
+
     def apply[A](as: A*) : List[A] = {
         if (as.isEmpty) Nil
         else Cons(as.head, apply(as.tail: _*))
