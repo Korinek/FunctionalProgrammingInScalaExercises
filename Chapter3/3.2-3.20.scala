@@ -14,25 +14,27 @@ object List {
         case Cons(x, xs) => x * product(xs)
     }
 
-    def tail[A](as: List[A]) : List[A] = as match {
-        case Nil => Nil
-        case Cons(x, Nil) => Nil
-        case Cons(x, xs) => xs
+    def tail[A](l: List[A]) : List[A] = l match {
+        case Nil => sys.error("tail of empty list")
+        case Cons(_, xs) => xs
     }
 
     def drop[A](l: List[A], n: Int) : List[A] = {
-        if(n <= 0) {
-            l
-        }
-        else {
-            drop(tail(l), n-1)
+        if (n <= 0) l
+        else l match {
+            case Nil => Nil
+            case Cons(_, xs) => drop(xs, n-1)
         }
     }
 
+    def dropWhile[A](l: List[A], f: A => Boolean): List[A] = l match {
+        case Cons(h, t) if f(h) => dropWhile(t, f)
+        case _ => l
+    }
+
     def setHead[A](newHead: A, as: List[A]) = as match {
-        case Nil => List(newHead)
-        case Cons(x, Nil) => List(newHead)
-        case Cons(x, xs) => Cons(newHead, xs)
+        case Nil => sys.error("setHead of empty list")
+        case Cons(_, xs) => Cons(newHead, xs)
     }
 
     def apply[A](as: A*) : List[A] = {
