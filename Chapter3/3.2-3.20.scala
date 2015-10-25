@@ -66,6 +66,10 @@ object List {
         foldRight(l, a)(Cons(_,_))
     }
 
+    def flatten[A](ll: List[List[A]]) : List[A] = {
+        foldRight(ll, Nil:List[A])(append)
+    }
+
     def sum2(ns: List[Int]) =
         foldRight(ns, 0)((x,y) => x + y)
 
