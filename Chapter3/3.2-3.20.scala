@@ -86,6 +86,10 @@ object List {
         foldRight(l, Nil:List[A])((h, t) => if (p(h)) Cons(h, t) else t) 
     }
 
+    def filter2[A](l: List[A])(p: A => Boolean): List[A] = {
+        flatMap(l)((x) => if (p(x)) List(x) else Nil)
+    }
+
     def flatMap[A,B](l: List[A])(f: A => List[B]) : List[B] = {
         concat(map(l)(f))
     }
