@@ -79,7 +79,11 @@ object List {
     }
 
     def map[A,B](l: List[A])(f: A => B): List[B] = {
-      foldRight(l, Nil:List[B])((h, t) => Cons(f(h), t))
+        foldRight(l, Nil:List[B])((h, t) => Cons(f(h), t))
+    }
+
+    def filter[A](l: List[A])(p: A => Boolean): List[A] = {
+        foldRight(l, Nil:List[A])((h, t) => if (p(h)) Cons(h, t) else t) 
     }
 
     def sum2(ns: List[Int]) =
