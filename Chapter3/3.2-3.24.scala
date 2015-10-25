@@ -94,6 +94,10 @@ object List {
         concat(map(l)(f))
     }
 
+    def concat[A](a: List[List[A]]) : List[A] = {
+        Nil
+    }
+
     def addPairWise(a: List[Int], b: List[Int]) : List[Int] = (a, b) match {
         case (_, Nil) => Nil
         case (Nil, _) => Nil
@@ -109,15 +113,14 @@ object List {
     @annotation.tailrec
     def startsWith[A](l: List[A], prefix: List[A]) : Boolean = (l, prefix) match {
         case (_, Nil) => true
-        case (Cons(h,t), Cons(h2,t2)) => if (h == h2) => startsWith(t, t2)
+        case (Cons(h,t), Cons(h2,t2)) if h == h2 => startsWith(t, t2)
         case _ => false
-
     }
 
     @annotation.tailrec
     def hasSubsequence[A](sup: List[A], sub: List[A]) : Boolean = sup match {
         case Nil => sub == Nil
-        case _ => if startsWith(sup, sub) => true
+        case _ if startsWith(sup, sub) => true
         case Cons(_, t) => hasSubsequence(t, sub)
     }
 
