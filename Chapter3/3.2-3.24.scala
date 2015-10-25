@@ -71,15 +71,11 @@ object List {
     }
 
     def add1(l: List[Int]) : List[Int] = {
-        foldRight(l, Nil:List[Int])((h, t) => Cons(h+1, t))
+      foldRight(l, Nil:List[Int])((h, t) => Cons(h+1, t))
     }
 
     def doubleToString(l: List[Double]) : List[String] = {
         foldRight(l, Nil:List[String])((h, t) => Cons(h.toString, t))
-    }
-
-    def map[A,B](l: List[A])(f: A => B): List[B] = {
-      foldRight(l, Nil:List[B])((h, t) => Cons(f(h), t))
     }
 
     def sum2(ns: List[Int]) =
