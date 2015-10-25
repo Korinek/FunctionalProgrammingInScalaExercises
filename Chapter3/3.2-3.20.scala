@@ -74,6 +74,10 @@ object List {
       foldRight(l, Nil:List[Int])((h, t) => Cons(h+1, t))
     }
 
+    def doubleToString(l: List[Double]) : List[String] = {
+        foldRight(l, Nil:List[String])((h, t) => Cons(h.toString, t))
+    }
+
     def sum2(ns: List[Int]) =
         foldRight(ns, 0)((x,y) => x + y)
 
