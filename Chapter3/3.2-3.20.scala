@@ -70,6 +70,10 @@ object List {
         foldRight(ll, Nil:List[A])(append)
     }
 
+    def add1(l: List[Int]) : List[Int] = {
+      foldRight(l, Nil:List[Int])((h, t) => Cons(h+1, t))
+    }
+
     def sum2(ns: List[Int]) =
         foldRight(ns, 0)((x,y) => x + y)
 
