@@ -94,10 +94,16 @@ object List {
         concat(map(l)(f))
     }
 
-    def addPairWise[A](a: List[A], b: List[A]) : List[A] = (a, b) match {
+    def addPairWise(a: List[Int], b: List[Int]) : List[Int] = (a, b) match {
         case (_, Nil) => Nil
         case (Nil, _) => Nil
         case (Cons(h1, t1), Cons(h2, t2)) => Cons(h1+h2, addPairWise(t1, t2))
+    }
+
+    def zipWith[A,B,C](a: List[A], b: List[B])(f: (A,B) => C) : List[C] = (a, b) match {
+        case (_, Nil) => Nil
+        case (Nil, _) => Nil
+        case(Cons(h1, t1), Cons(h2, t2)) => Cons(f(h1,t1), zipWith(t1,t2)(f))
     }
 
     def sum2(ns: List[Int]) =
