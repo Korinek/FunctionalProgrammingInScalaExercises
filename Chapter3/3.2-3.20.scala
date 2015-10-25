@@ -86,6 +86,10 @@ object List {
         foldRight(l, Nil:List[A])((h, t) => if (p(h)) Cons(h, t) else t) 
     }
 
+    def flatMap[A,B](l: List[A])(f: A => List[B]) : List[B] = {
+        concat(map(l)(f))
+    }
+
     def sum2(ns: List[Int]) =
         foldRight(ns, 0)((x,y) => x + y)
 
