@@ -54,6 +54,10 @@ object Option {
         case Nil => Some(Nil)
         case h :: t => map2(f(h), traverse(t)(f))(_ :: _)
     }
+
+    def sequence[A](a: List[Option[A]]): Option[List[A]] = {
+        traverse(a)(x => x)
+    }
 }
 
 
