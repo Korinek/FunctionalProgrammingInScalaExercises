@@ -55,7 +55,7 @@ object Option {
         case h :: t => map2(f(h), traverse(t)(f))(_ :: _)
     }
 
-    def sequence[A](a: List[Option[A]]): Option[List[A]] = {
+    def sequenceViaTraverse[A](a: List[Option[A]]): Option[List[A]] = {
         traverse(a)(x => x)
     }
 }
