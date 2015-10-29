@@ -52,6 +52,10 @@ trait Stream[+A] {
         foldRight(true)((a, b) => p(a) && b)
     }
 
+    def headOption: Option[A] = {
+        foldRight(None: Option[A])((h, _) => Some(h))
+    }
+
 }
 
 case object Empty extends Stream[Nothing]
