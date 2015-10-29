@@ -40,6 +40,10 @@ trait Stream[+A] {
         case _ => empty
     }
 
+    def takeWhileViaFoldRight(p: A => Boolean): Stream[A] = {
+        foldRight(empty[A])((h, t) => if (p(h)) cons(h, t) else empty)
+    }
+
     def exists(p: A => Boolean): Boolean = {
         foldRight(false)((a, b) => p(a) || b)
     }
@@ -47,6 +51,7 @@ trait Stream[+A] {
     def forAll(p: A => Boolean): Boolean = {
         foldRight(true)((a, b) => p(a) && b)
     }
+
 }
 
 case object Empty extends Stream[Nothing]
