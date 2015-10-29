@@ -2,6 +2,11 @@ package fpinscala.laziness
 
 import Stream._
 trait Stream[+A] {
+
+    def foldRight[B](z: => B)(f: (A, => B) => B): B = this match {
+        case Cons(h,t) => f(h(), t().foldRight(z)(f))
+        case _ => z
+    }
    
     def toListRecursive: List[A] = this match {
         case Cons(h, t) => h()::t().toListRecursive
@@ -33,6 +38,14 @@ trait Stream[+A] {
     def takeWhile(p: A => Boolean): Stream[A] = this match {
         case Cons(h, t) if p(h()) => cons(h(), t().takeWhile(p))
         case _ => empty
+    }
+
+    def exists(p: A => Boolean): Boolean = {
+        foldRight(false)((a, b) => p(a) || b)
+    }
+
+    def forAll(p: A => Boolean): Boolean = {
+        foldRight(true)((a, b) => p(a) && b)
     }
 }
 
