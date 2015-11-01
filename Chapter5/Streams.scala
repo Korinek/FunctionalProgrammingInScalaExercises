@@ -119,6 +119,13 @@ trait Stream[+A] {
             case (h, h2) => h == h2
         }
     }
+
+    def tails: Stream[Stream[A]] = {
+        unfold(this) {
+            case Empty => None
+            case s => Some((s, s drop 1))
+        } append Stream(empty)
+    }
 }
 
 case object Empty extends Stream[Nothing]
