@@ -88,4 +88,15 @@ object RNG {
             (f(a,b), r2)
         }
     }
+
+    def both[A, B](ra: Rand[A], rb: Rand[B]): Rand[(A,B)] =
+        map2(ra, rb)((_, _))
+
+    def sequence[A](fa: List[Rand[A]]): Rand[List[A]] = {
+        fa.foldRight(unit(List[A]()))((f, acc) => map2(f, acc)(_ :: _))
+    }
+
+    def _ints(count: Int): Rand[List[Int]] = {
+        sequence(List.fill(count)(int))
+    }
 }
