@@ -32,4 +32,9 @@ object RNG {
         val (i, r) = rng.nextInt
         (if (i<0) -(i+1) else i, r)
     }
+
+    def double(rng: RNG): (Double, RNG) = {
+      val (i, r) = rng.nextInt
+        (i.toDouble / (Int.MaxValue + 1), r)
+    }
 }
