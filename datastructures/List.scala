@@ -87,5 +87,14 @@ object List { // `List` companion object. Contains functions for creating and wo
     case Cons(h,t) => foldLeft(t, f(z, h))(f)
   }
 
+  def sumViaFoldLeft(ints: List[Int]): Int =
+    foldLeft(ints, 0)(_+_)
+
+  def productViaFoldLeft(ds: List[Double]): Double =
+    foldLeft(ds, 1.0)(_*_)
+    
+  def lengthViaFoldLeft[A](l: List[A]): Int =
+    foldLeft(l, 1)((acc, h) => acc + 1)
+
   def map[A,B](l: List[A])(f: A => B): List[B] = sys.error("todo")
 }
