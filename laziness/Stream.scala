@@ -17,6 +17,17 @@ trait Stream[+A] {
     case Empty => None
     case Cons(h, t) => if (f(h())) Some(h()) else t().find(f)
   }
+
+  def toList: List[A] = {
+    @annotation.tailrec
+    def go(l: Stream[A], acc: List[A]): List[A] = l match {
+      case Cons(h, t) => go(t(), h() :: acc)
+      case _ => acc
+    }
+
+    go(this, List()).reverse
+  }
+
   def take(n: Int): Stream[A] = sys.error("todo")
 
   def drop(n: Int): Stream[A] = sys.error("todo")
