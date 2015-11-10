@@ -35,7 +35,7 @@ trait Stream[+A] {
   }
 
   @annotation.tailrec
-  def drop(n: Int): Stream[A] = this match {
+  final def drop(n: Int): Stream[A] = this match {
      case Cons(_, t) if n > 0 => t().drop(n-1)
      case _ => this
   }
