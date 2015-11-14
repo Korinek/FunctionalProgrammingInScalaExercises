@@ -113,7 +113,7 @@ case class State[S,+A](run: S => (A, S)) {
     flatMap(a => State.unit(f(a)))
 
   def map2[B,C](sb: State[S, B])(f: (A, B) => C): State[S, C] =
-    sys.error("todo")
+    flatMap(a => sb.map(b => f(a, b)))
 
   def flatMap[B](f: A => State[S, B]): State[S, B] =
     State(s => {
