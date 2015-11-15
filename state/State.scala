@@ -128,6 +128,23 @@ case object Turn extends Input
 
 case class Machine(locked: Boolean, candies: Int, coins: Int)
 
+object Candy {
+  def update = (i: Input) => (s: Machine) =>
+    (i, s) match {
+      case (_, Machine(_, 0, _)) => s // out of candies
+      case (Coin, Machine(false, _, _)) => s // aready unlocked
+      case (Turn, Machine(true, _, _)) => s // can't turn while it's locked
+      case (Coin, Machine(true, candies, coins)) => Machine(false, candies, coins+1)  // unlock it and inc coins
+      case (Turn, Machine(false, candies, coins)) => Machine(true, candies-1, coins)  // get the candy
+    }
+  
+  def simulateMachine(inputs: List[Input]): State[Machine, (Int, Int)] =
+    for {
+      _ <- State.sequence(inputs map (modify[Machine] _ compose update))
+      s <- get
+    } yield (s.coins, s.candies)
+}
+
 object State {
   type Rand[A] = State[RNG, A]
 
@@ -136,7 +153,4 @@ object State {
 
   def sequence[S,A](sas: List[State[S, A]]): State[S, List[A]] =
     sas.foldRight(unit[S, List[A]](List()))((f, acc) => f.map2(acc)(_ :: _))
-
-  def simulateMachine(inputs: List[Input]): State[Machine, (Int, Int)] = ???
-
   }
