@@ -138,11 +138,11 @@ object Candy {
       case (Turn, Machine(false, candies, coins)) => Machine(true, candies-1, coins)  // get the candy
     }
   
-  def simulateMachine(inputs: List[Input]): State[Machine, (Int, Int)] =
+  /*def simulateMachine(inputs: List[Input]): State[Machine, (Int, Int)] =
     for {
       _ <- State.sequence(inputs map (modify[Machine] _ compose update))
       s <- get
-    } yield (s.coins, s.candies)
+    } yield (s.coins, s.candies)*/
 }
 
 object State {
