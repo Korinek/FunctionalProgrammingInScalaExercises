@@ -109,6 +109,11 @@ object Par {
   def choiceN2[A](n: Par[Int])(choices: List[Par[A]]): Par[A] =
     chooser(n)((i => choices(i)))
 
+  def join[A](a: Par[Par[A]]): Par[A] =
+    es => {
+      run(es)(run(es)(a).get())
+    }
+
   /* Gives us infix syntax for `Par`. */
   implicit def toParOps[A](p: Par[A]): ParOps[A] = new ParOps(p)
 
