@@ -34,6 +34,9 @@ object RNG {
     (if (i < 0) -(i+1) else i, r)
   }
 
+  def boolean(rng: RNG): (Boolean, RNG) =
+    rng.nextInt match { case (i,rng2) => (i%2==0,rng2) }
+
   def double(rng: RNG): (Double, RNG) = {
     val (i, r) = nonNegativeInt(rng)
     (i / (Int.MaxValue.toDouble + 1), r)
