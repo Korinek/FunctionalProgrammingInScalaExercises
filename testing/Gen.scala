@@ -55,6 +55,12 @@ object Gen {
 
   def union[A](g1: Gen[A], g2: Gen[A]): Gen[A] =
     boolean.flatMap(b => if (b) g1 else g2)
+
+  def weighted[A](g1: [Gen[A],Double], g2: (Gen[A],Double)): Gen[A] = {
+    val g1Threshold = g1._2.abs / (g1._2.abs + g2._2.abs)
+     Gen(State(RNG.double).flatMap(d => if (d < g1Threshold) g1._1.sample else g2._1.sample))
+  }
+    
 }
 
 trait SGen[+A] {
