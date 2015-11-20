@@ -87,7 +87,7 @@ object Par {
       run(es)(choices(index))
     }
 
-  def _choice[A](cond: Par[Boolean])(t: Par[A], f: Par[A]): Par[A] =
+  def choice2[A](cond: Par[Boolean])(t: Par[A], f: Par[A]): Par[A] =
     choiceN(map(cond)(res => if (res) 0 else 1))(List(t, f))
 
   def choiceMap[K,V](key: Par[K])(choices: Map[K, Par[V]]): Par[V] =
@@ -96,6 +96,18 @@ object Par {
       run(es)(choices(k))
     }
 
+  def chooser[A,B](ps: Par[A])(choices: A => Par[B]): Par[B] =
+    es => {
+      var choice = run(es)(ps).get
+      run(es)(choices(choice))
+    }
+
+
+  def choice3[A](cond: Par[Boolean])(t: Par[A], f: Par[A]): Par[A] =
+    chooser(cond)((b => if (b) t else f))
+
+  def choiceN2[A](n: Par[Int])(choices: List[Par[A]]): Par[A] =
+    chooser(n)((i => choices(i)))
 
   /* Gives us infix syntax for `Par`. */
   implicit def toParOps[A](p: Par[A]): ParOps[A] = new ParOps(p)
