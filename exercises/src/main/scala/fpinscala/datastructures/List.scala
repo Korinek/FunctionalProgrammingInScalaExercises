@@ -107,5 +107,9 @@ object List { // `List` companion object. Contains functions for creating and wo
     foldRight(l, r)(Cons(_,_))
   }
 
+  def flatten[A](ll: List[List[A]]): List[A] = {
+    foldRight(ll, Nil: List[A])(append)
+  }
+
   def map[A,B](l: List[A])(f: A => B): List[B] = sys.error("todo")
 }
