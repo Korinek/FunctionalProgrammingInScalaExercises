@@ -135,5 +135,7 @@ object List { // `List` companion object. Contains functions for creating and wo
     flatten(map(l)(f))
   }
 
-
+  def filterViaFlatMap[A,B](l: List[A])(f: A => Boolean): List[A] = {
+    flatMap(l)(a => if (f(a)) List(a) else Nil)
+  }
 }
