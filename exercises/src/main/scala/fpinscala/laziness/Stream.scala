@@ -79,7 +79,10 @@ trait Stream[+A] {
   def zipAll[B](s2: Stream[B]): Stream[(Option[A], Option[B])] =
     zipWithAll(s2)((_,_))
 
-  def startsWith[B](s: Stream[B]): Boolean = sys.error("todo")
+  def startsWith[B](s: Stream[B]): Boolean =
+    zipAll(s).takeWhile(!_._2.isEmpty) forAll {
+      case (h1,h2) => h1 == h2
+    }
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
