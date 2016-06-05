@@ -42,6 +42,11 @@ object Par {
   def sequence[A](ps: List[Par[A]]): Par[List[A]] =
     ps.foldRight[Par[List[A]]](unit(List()))((h,t) => map2(h,t)(_ :: _))
 
+  def parFilter[A](as: List[A])(f: A => Boolean): Par[List[A]] = {
+    val fas: List[Par[List[A]]] = as.map(asyncF((a: A) => if (f(a)) List(a) else List()))
+    map(sequence(fas))(_.flatten)
+  }
+
   def equal[A](e: ExecutorService)(p: Par[A], p2: Par[A]): Boolean = 
     p(e).get == p2(e).get
 
